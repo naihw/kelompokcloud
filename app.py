@@ -6,13 +6,11 @@ import requests
 
 app = Flask(__name__)
 
-# Konfigurasi koneksi ke Azure SQL pakai pymssql
+# Konfigurasi koneksi ke Azure SQL
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     'mssql+pymssql://sqladmin:nayaka_hilman0605@websederhana.database.windows.net:1433/latihanDB'
 )
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
 db.init_app(app)
 
 # Buat tabel jika belum ada
@@ -25,7 +23,7 @@ with app.app_context():
 
 @app.route('/')
 def index():
-    return render_template('form.html')  # Langsung tampilkan form input
+    return render_template('form.html')
 
 @app.route('/tambah', methods=['POST'])
 def tambah():
@@ -58,7 +56,7 @@ def form():
 @app.route('/berita')
 def berita():
     kategori = request.args.get('kategori', 'general')
-    api_key = os.getenv('NEWS_API_KEY')  # Ambil dari variabel lingkungan di Azure
+    api_key = os.getenv('NEWS_API_KEY')
     if not api_key:
         return jsonify({'error': 'API Key belum dikonfigurasi'}), 500
 
@@ -70,10 +68,10 @@ def berita():
         return jsonify(data)
     else:
         return jsonify({'error': 'Gagal mengambil data dari NewsAPI'}), 500
-    
+
 @app.route('/cari-berita')
 def cari_berita():
-    keyword = request.args.get('q')  # ambil query dari URL, misal ?q=teknologi
+    keyword = request.args.get('q')  # contoh: /cari-berita?q=teknologi
     api_key = os.getenv('NEWS_API_KEY')
 
     if not api_key:
@@ -86,9 +84,10 @@ def cari_berita():
 
     if response.status_code == 200:
         data = response.json()
-        return jsonify(data)
+        return render_template('berita.html', articles=data['articles'], keyword=keyword)
     else:
         return jsonify({'error': 'Gagal mengambil data dari NewsAPI'}), 500
+
 # -----------------------
 
 if __name__ == '__main__':
