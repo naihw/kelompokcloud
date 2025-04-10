@@ -5,3 +5,4 @@ Flask-SQLAlchemy==2.5.1
 SQLAlchemy==1.4.27
 pyodbc
 pymssql
+requests==2.31.0
