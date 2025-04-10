@@ -70,7 +70,25 @@ def berita():
         return jsonify(data)
     else:
         return jsonify({'error': 'Gagal mengambil data dari NewsAPI'}), 500
+    
+@app.route('/cari-berita')
+def cari_berita():
+    keyword = request.args.get('q')  # ambil query dari URL, misal ?q=teknologi
+    api_key = os.getenv('NEWS_API_KEY')
 
+    if not api_key:
+        return jsonify({'error': 'API Key belum dikonfigurasi'}), 500
+    if not keyword:
+        return jsonify({'error': 'Parameter q (query) wajib diisi'}), 400
+
+    url = f'https://newsapi.org/v2/everything?q={keyword}&language=id&apiKey={api_key}'
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        return jsonify(data)
+    else:
+        return jsonify({'error': 'Gagal mengambil data dari NewsAPI'}), 500
 # -----------------------
 
 if __name__ == '__main__':
