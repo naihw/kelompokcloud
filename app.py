@@ -1,25 +1,31 @@
 from flask import Flask, request, jsonify, render_template, redirect
 from extensions import db
 from model import Mahasiswa
+import os
+import requests
 
 app = Flask(__name__)
 
-# Ganti sesuai user/password dan nama database MySQL kamu
+# Konfigurasi koneksi ke Azure SQL
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     'mssql+pyodbc://sqladmin:nayaka_hilman0605@websederhana.database.windows.net/latihanDB'
     '?driver=ODBC+Driver+18+for+SQL+Server&Encrypt=yes&TrustServerCertificate=no&Connection+Timeout=30'
 )
-
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
+# Buat tabel jika belum ada
 with app.app_context():
     db.create_all()
 
+# -----------------------
+# ROUTE MAHASISWA
+# -----------------------
+
 @app.route('/')
 def index():
-    return "✅ API Mahasiswa - Flask + MySQL (Azure)"
+    return "✅ API Mahasiswa + Berita (Azure Flask App)"
 
 @app.route('/tambah', methods=['POST'])
 def tambah():
@@ -45,5 +51,29 @@ def form():
         return redirect('/form')
     return render_template('form.html')
 
+# -----------------------
+# ROUTE BERITA (NewsAPI)
+# -----------------------
+
+@app.route('/berita')
+def berita():
+    kategori = request.args.get('kategori', 'general')
+    api_key = os.getenv('NEWS_API_KEY')  # Ambil dari variabel lingkungan di Azure
+    if not api_key:
+        return jsonify({'error': 'API Key belum dikonfigurasi'}), 500
+
+    url = f'https://newsapi.org/v2/top-headlines?country=id&category={kategori}&apiKey={api_key}'
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        return jsonify(data)
+    else:
+        return jsonify({'error': 'Gagal mengambil data dari NewsAPI'}), 500
+
+# -----------------------
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)

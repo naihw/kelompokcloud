@@ -1,13 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <meta charset="utf-8">
+    <title>Berita Terkini</title>
 </head>
 <body>
-    <h1>Hello World</h1>
-    <p>Selamat datang di halaman utama!</p>
-    <a href="/form">Isi Formulir</a>
+    <h1>Berita Terkini</h1>
+
+    <form action="/search" method="post">
+        <input type="text" name="keyword" placeholder="Cari berita...">
+        <button type="submit">Cari</button>
+    </form>
+
+    {% if keyword %}
+        <h2>Hasil pencarian untuk: "{{ keyword }}"</h2>
+    {% endif %}
+
+    {% for article in articles %}
+        <div style="margin-bottom: 20px;">
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.description }}</p>
+            <a href="{{ article.url }}" target="_blank">Baca selengkapnya</a>
+        </div>
+    {% endfor %}
 </body>
 </html>
