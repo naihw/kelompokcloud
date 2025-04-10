@@ -6,11 +6,11 @@ import requests
 
 app = Flask(__name__)
 
-# Konfigurasi koneksi ke Azure SQL
+# Konfigurasi koneksi ke Azure SQL pakai pymssql
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    'mssql+pyodbc://sqladmin:nayaka_hilman0605@websederhana.database.windows.net/latihanDB'
-    '?driver=ODBC+Driver+18+for+SQL+Server&Encrypt=yes&TrustServerCertificate=no&Connection+Timeout=30'
+    'mssql+pymssql://sqladmin:nayaka_hilman0605@websederhana.database.windows.net:1433/latihanDB'
 )
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)

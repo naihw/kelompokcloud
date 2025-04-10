@@ -4,20 +4,75 @@
 <head>
     <meta charset="UTF-8">
     <title>Formulir Mahasiswa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+        }
+
+        input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        input[type="submit"] {
+            background-color: #0078D4;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #005fa3;
+        }
+
+        a {
+            text-decoration: none;
+            color: #0078D4;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .links {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <h1>Form Tambah Mahasiswa</h1>
     <form method="POST">
-        <label for="nama">Nama:</label><br>
-        <input type="text" id="nama" name="nama" required><br><br>
+        <label for="nama">Nama:</label>
+        <input type="text" id="nama" name="nama" required>
 
-        <label for="nim">NIM:</label><br>
-        <input type="text" id="nim" name="nim" required><br><br>
+        <label for="nim">NIM:</label>
+        <input type="text" id="nim" name="nim" required>
 
         <input type="submit" value="Tambah Mahasiswa">
     </form>
 
-    <hr>
-    <a href="/list">Lihat Data Mahasiswa (JSON)</a>
+    <div class="links">
+        <hr>
+        <p>📄 <a href="/list">Lihat Data Mahasiswa (JSON)</a></p>
+        <p>📰 <a href="/berita?kategori=technology">Lihat Berita Teknologi</a></p>
+    </div>
 </body>
 </html>
