@@ -9,6 +9,14 @@
     <div class="container mt-4">
         <h2 class="mb-4">Hasil Pencarian Berita: "{{ keyword }}"</h2>
 
+        <!-- Form pencarian -->
+        <form method="get" action="/cari-berita" class="mb-4">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Cari berita..." value="{{ keyword }}">
+                <button type="submit" class="btn btn-primary">Cari</button>
+            </div>
+        </form>
+
         {% if articles %}
             <div class="row">
                 {% for berita in articles %}
