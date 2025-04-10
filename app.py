@@ -25,7 +25,7 @@ with app.app_context():
 
 @app.route('/')
 def index():
-    return "✅ API Mahasiswa + Berita (Azure Flask App)"
+    return render_template('form.html')  # Langsung tampilkan form input
 
 @app.route('/tambah', methods=['POST'])
 def tambah():
@@ -74,6 +74,5 @@ def berita():
 # -----------------------
 
 if __name__ == '__main__':
-    import os
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
